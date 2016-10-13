@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Vue Fruit invoice</title>
+
+    <style>
+        #example-2 {
+            width: 500px;
+        }
+
+        header,
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .rowItem {
+            display: flex;
+            justify-content: center;
+            width: 125px;
+        }
+
+        .spaceAround {
+            display: flex;
+            justify-content: center;
+        }
+
+        input[type="number"] {
+            width: 40px;
+        }
+    </style>
+
+</head>
+
+<body translate="no">
+
+    <div id="example-2">
+        <strong>
+  <header>
+  <div id="description" class="rowItem">Description</div>
+  <div id="quantity" class="rowItem">Quantity (kg)</div>
+  <div id="unitPrice" class="rowItem">Unit Price</div>
+  <div id="amount" class="rowItem">Amount</div>
+  </header>
+    </strong>
+        <template id="market-template">
+            <div class="row">
+                <div class="rowItem">
+                    {{fruitName}} ({{fruitIcon}})
+                </div>
+                <div class="rowItem">
+                    <input type="number" min="0" value="{{fruitQt - 1}}" max="{{fruitQt}}" v-model="counter" />
+                </div>
+                <div class="rowItem">
+                    {{fruitPrice}} HUF
+                </div>
+                <div class="rowItem">
+                    {{fruitPrice * counter}} HUF
+                </div>
+            </div>
+        </template>
+        <market-checks v-for="fruit in market" :fruit-name="fruit.name" :fruit-icon="fruit.icon" :fruit-price="fruit.price" :fruit-Qt="fruit.qt">
+        </market-checks>
+    </div>
+
+    <script src='js/vue/1.0.16/vue.js'></script>
+
+    <script>
+        var data = {
+            counter: 0
+        }
+        var MarketChecks = Vue.extend({
+            props: ['fruitName', 'fruitIcon', 'fruitPrice', 'fruitQt'],
+            template: '#market-template',
+            data: function() {
+                return {
+                    counter: 0
+                }
+            }
+        });
+        Vue.component('market-checks', MarketChecks)
+        new Vue({
+            el: '#example-2',
+            data: {
+                counter: 0,
+                market: [{
+                    name: 'Green Apple',
+                    icon: "🍏",
+                    'price': 100,
+                    'qt': 50
+                }, {
+                    name: 'Grapes',
+                    icon: "🍇",
+                    'price': 200,
+                    'qt': 45
+                }, {
+                    name: 'Watermelon',
+                    icon: "🍉",
+                    'price': 50,
+                    'qt': 80
+                }, {
+                    name: 'Strawberry',
+                    icon: "🍓",
+                    'price': 70,
+                    'qt': 34
+                }, {
+                    name: 'Cherries',
+                    icon: "🍒",
+                    'price': 110,
+                    'qt': 33
+                }, {
+                    name: 'Pineapple',
+                    icon: "🍍",
+                    'price': 150,
+                    'qt': 20
+                }],
+                total: 0
+            }
+        });
+    </script>
+
+</body>
+
+</html>

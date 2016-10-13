@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Vue To Do list</title>
+
+    <link rel='stylesheet prefetch' href='css/bootstrap.min.css'>
+
+</head>
+
+<body translate="no">
+
+    <div class="container" id="app">
+        <h1 class="col-md-12">TASK MANAGER</h1>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="">Name</label>
+                        <input type="text" class="form-control" v-model="task.name" placeholder="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Description</label>
+                        <textarea class="form-control" rows="5" v-model="task.desc" placeholder="Description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Date</label>
+                        <input type="date" class="form-control" v-model="task.date" placeholder="Input field">
+                    </div>
+
+                    <button @click="addTask" class="btn btn-primary">SAVE</button>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <ul class="list-group">
+                <li class="list-group-item" v-for="t in tasks">
+                    <h2>{{t.name}}</h2>
+                    <h6>{{t.date}}</h6>
+                    <h4>{{t.desc}}</h4>
+
+                    <button @click="deleteTask" class="btn btn-danger">Delete</button>
+                </li>
+            </ul>
+
+        </div>
+
+        <script src='js/vue/1.0.16/vue.js'></script>
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    task: {
+                        name: '',
+                        desc: '',
+                        date: ''
+                    },
+                    tasks: []
+                },
+
+                methods: {
+
+                    addTask: function() {
+
+                        if (this.task.name) {
+
+                            this.tasks.push(this.task);
+                            this.task = {
+                                name: '',
+                                desc: '',
+                                date: ''
+                            }
+                        }
+                    },
+                    deleteTask: function(i) {
+                        this.tasks.splice(i, 1);
+                    }
+                }
+            });
+        </script>
+
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Vue JS Current Weather App</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+
+        img {
+            width: 100px;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #app {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ccc;
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            align-items: center;
+            border: 1px solid black;
+            border-radius: 10px;
+        }
+
+        #temp {
+            font-size: 50px;
+        }
+
+        ul {
+            list-style-type: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input[type="text"],
+        button {
+            border: 1px solid #333;
+            padding: 2px;
+            margin: 5px 0;
+            background: transparent;
+            border-radius: 4px;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body translate="no">
+
+    <strong>Current weather and forecasts</strong>
+    <div id='app'>
+        <div v-show='!data.city'>
+            <ul>
+                <img alt='' src='http://api.openweathermap.org/img/w/{{data.cityData.weather[0].icon}}.png'>
+                <li>
+                    <div id='temp'>{{Math.round(data.cityData.main.temp)}}°C</div>
+                </li>
+                <li>{{data.cityData.name}}, {{data.cityData.sys.country}}</li>
+                <li>
+                    <h1>{{data.cityData.weather[0].main}}</h1>
+                </li>
+            </ul>
+        </div>
+        <input placeholder='Search...' type='text' v-model='city' v-on:keyup.enter='getData'>
+        <button @click='getData' type='submit'>Submit</button>
+    </div>
+
+    <script src='js/vue/1.0.16/vue.js'></script>
+    <script src='js/jquery/3.1.0/jquery.min.js'></script>
+
+    <script>
+        new Vue({
+
+            el: '#app',
+            data: {
+                city: '',
+                cityData: {}
+            },
+
+            methods: {
+
+                getData: function() {
+                    var self = this;
+                    $.getJSON('http://api.openweathermap.org/data/2.5/weather?q=' + self.city + '&appid=541c495e0d98e00e5370e892255c41b1&units=metric', function(json) {
+                        self.$set('data.cityData', json);
+                    });
+                }
+
+            }
+
+        })
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <title> Vue Object test #2</title>
+
+    <style>
+        pre {
+            display: block;
+            background: #ddd;
+            padding: 1rem;
+            border-radius: 10px;
+        }
+    </style>
+
+</head>
+
+<body translate="no">
+
+    <body id="main-container">
+
+        <template id="market-template">
+            <div>
+                <input type="checkbox" value="{{fruitName}}" id="{{fruitIcon}}" checked="{{fruitStatus}}" @click="changeStatus(fruitIcon)" /> {{fruitName}} ({{fruitIcon}}) is: {{fruitStatus ? "✅" : "⛔" }}
+            </div>
+        </template>
+
+        <market-checks v-for="fruit in market" :fruit-name="fruit.name" :fruit-icon="fruit.icon" :fruit-status.sync="fruit.status">
+        </market-checks>
+        <pre><code>{{ counter | json }}</code></pre>
+        <pre><code>{{ basket | json }}</code></pre>
+
+    </body>
+
+    <script src='js/vue/1.0.26/vue.min.js'></script>
+
+    <script>
+        var MarketChecks = Vue.extend({
+            props: ['fruitName', 'fruitIcon', 'fruitStatus'],
+            template: '#market-template',
+            methods: {
+                changeStatus: function(item) {
+                    if (this.fruitStatus == false) {
+                        vm.basket.push(item)
+                    } else {
+                        vm.basket.$remove(item)
+                    }
+                    this.fruitStatus = !this.fruitStatus;
+                    vm.counter = vm.basket.length;
+                }
+            }
+        });
+
+        Vue.component('market-checks', MarketChecks);
+        var vm = new Vue({
+            el: '#main-container',
+            data: {
+                counter: 0,
+                market: [{
+                    name: 'Green Apple',
+                    icon: "🍏",
+                    'status': false
+                }, {
+                    name: 'Grapes',
+                    icon: "🍇",
+                    'status': false
+                }, {
+                    name: 'Watermelon',
+                    icon: "🍉",
+                    'status': false
+                }, {
+                    name: 'Strawberry',
+                    icon: "🍓",
+                    'status': false
+                }, {
+                    name: 'Cherries',
+                    icon: "🍒",
+                    'status': false
+                }, {
+                    name: 'Pineapple',
+                    icon: "🍍",
+                    'status': false
+                }],
+                basket: []
+            }
+        });
+    </script>
+
+</body>
+
+</html>

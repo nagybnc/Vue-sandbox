@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Vue Object test</title>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wrapper {
+            width: 20rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .title {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        #header {
+            display: flex;
+            flex-direction: column;
+        }
+
+        ul {
+            max-width: 200px;
+            padding: 0;
+            border: 10px solid brown;
+            border-radius: 0 0 10px 10px;
+            border-top: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        li {
+            cursor: pointer;
+            font-size: 2em;
+            display: block;
+        }
+
+        pre {
+            display: flex;
+            background: #ddd;
+            padding: 1rem;
+            border-radius: 10px;
+        }
+    </style>
+
+</head>
+
+<body translate="no">
+
+    <div class="wrapper">
+        <div id="header">
+            <div id="market">
+                <h4 class="title">Market</h4>
+                <ul class="list-group">
+                    <li v-for="fruit in market" v-on:click="addElement(fruit)" v-bind:title="fruit.name" class="list-group-item"><span>{{ fruit.icon }}</span></li>
+                </ul>
+            </div>
+            <div id="market">
+                <h4 class="title">Basket</h4>
+                <ul class="list-group">
+                    <li v-for="fruit in basket" :key="fruit.name" v-on:click="basket.$remove(fruit)" v-bind:title="fruit.name" class="list-group-item"><span>{{ fruit.icon }}</span></li>
+                    <div v-show="!basket.length" class="text-xs-center">
+                        <hr/>
+                        <h5 class="title">All out of fruits!</h5>
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <h4 class="title">Your Basket:</h4>
+        <pre><code>{{ basket | json }}</code></pre>
+
+        <script src='js/vue/1.0.26/vue.min.js'></script>
+
+        <script>
+            vm = new Vue({
+                el: 'body',
+                data: {
+                    id: 0,
+                    market: [{
+                        name: 'Green Apple',
+                        icon: "🍏"
+                    }, {
+                        name: 'Grapes',
+                        icon: "🍇"
+                    }, {
+                        name: 'Watermelon',
+                        icon: "🍉"
+                    }, {
+                        name: 'Strawberry',
+                        icon: "🍓"
+                    }, {
+                        name: 'Cherries',
+                        icon: "🍒"
+                    }, {
+                        name: 'Pineapple',
+                        icon: "🍍"
+                    }],
+                    basket: [{
+                        name: 'Banana',
+                        icon: "🍌"
+                    }, ]
+                },
+                methods: {
+                    addElement: function(item) {
+                        this.basket.push(item)
+                    }
+                }
+            })
+        </script>
+
+</body>
+
+</html>
